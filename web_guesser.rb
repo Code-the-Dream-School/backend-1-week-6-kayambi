@@ -16,6 +16,8 @@
 require "sinatra"
 set :bind,'0.0.0.0'
 
+require "sinatra/reloader"
+
 set :SECRET_NUMBER, rand(100)
 @@guesses = 5 
 
@@ -24,8 +26,8 @@ get ("/")  do
     guess = params["guess"]
     cheat = params["cheat"]
     message = cheat =="true" ? "#{secret_number}" :process_guess(guess)
-    color = get_color(message)
-    erb :index, :locals =>  {:number =>secret_number, :message => message, :color => color}
+    # color = get_color(message)
+    erb :index, :locals =>  {:number =>secret_number, :message => message}
 end
 
 def secret_number
@@ -48,7 +50,7 @@ end
 
 def reset 
     @@guesses = 5 
-    settings.SECRET_NUMBER = random(100)
+    settings.SECRET_NUMBER = rand(100)
 end
 
 def compare_guess(guess)
